@@ -11,10 +11,11 @@ class CommentAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()    
         return Response(serializer.data)
-    
-    def get(self, request):
-        comments = Comment.objects.all()
-        serializer = CommentSerializer(comments, many=True)
+
+class PostCommentView(APIView):
+    def get(self,_, pk=None):
+        comments = Comment.objects.filter(post_id=pk)
+        serializer = CommentSerializer(comments ,many=True)
         return Response(serializer.data)
         
 
